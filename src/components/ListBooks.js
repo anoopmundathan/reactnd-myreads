@@ -10,7 +10,7 @@ class ListBooks extends Component {
         return(
             <div className="list-books">
                 <Title />
-                <BookShelf />
+                <BookShelf books={this.props.books}/>
                 <AddBook />
             </div>
         )

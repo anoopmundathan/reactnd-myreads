@@ -9,13 +9,15 @@ import './App.css'
 class BooksApp extends Component {
 
     state = {
-        books: []
+        books: [],
+        loaded: false
     }
 
     componentDidMount() {
         BooksAPI.getAll().then(books => {
             this.setState({
-                books: books
+                books: books,
+                loaded: true
             })
         })
     }
@@ -23,10 +25,13 @@ class BooksApp extends Component {
     render() {
         return(
             <div className="app">
-                <Route exact path="/" render={() => (
-                    <ListBooks books={this.state.books} />
-                )} />
-                <Route path="/search" component={SearchBooks} />
+                {this.state.loaded ?
+                 (<div>
+                    <Route exact path="/" render={() => (<ListBooks books={this.state.books} />)} />
+                    <Route path="/search" component={SearchBooks} />
+                  </div>)
+                 : (<h1>Loading...</h1>)
+                }
             </div>
         );
     }
