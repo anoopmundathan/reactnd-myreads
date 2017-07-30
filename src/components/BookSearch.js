@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
-class SearchBooks extends Component {
-
+class BookSearch extends Component {
     render() {
         return(
             <div className="search-books">
@@ -17,7 +16,9 @@ class SearchBooks extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
+                <input 
+                  type="text" 
+                  placeholder="Search by title or author"/>
               </div>
             </div>
             <div className="search-books-results">
@@ -28,4 +29,4 @@ class SearchBooks extends Component {
     }
 }
 
-export default SearchBooks
+export default BookSearch
