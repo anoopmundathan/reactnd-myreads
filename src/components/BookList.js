@@ -6,24 +6,11 @@ import BookShelf from './BookShelf'
 import AddBook from './AddBook'
 
 class BookList extends Component {
-
-    state = {
-        books: []
-    }
-
-    componentDidMount() {
-        BooksAPI.getAll().then(books => {
-            this.setState({
-                books: books
-            })
-        })
-    }
-
     render() {
         return(
             <div className="list-books">
                 <Title />
-                <BookShelf books={this.state.books}/> 
+                <BookShelf /> 
                 <AddBook />
             </div>
         )

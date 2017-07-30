@@ -1,9 +1,21 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Book from './Book'
+import * as BooksAPI from '../BooksAPI'
+
 import Shelf from './Shelf'
 
 class BookShelf extends Component {
+
+    state = {
+        books: []
+    }
+
+    componentDidMount() {
+        BooksAPI.getAll().then(books => {
+            this.setState({
+                books: books
+            })
+        })
+    }
 
     render() {
         
@@ -11,7 +23,7 @@ class BookShelf extends Component {
         let wantList = [];
         let readList = [];
 
-        this.props.books.map(book => {
+        this.state.books.map(book => {
             switch(book.shelf) {
                 case 'currentlyReading':
                     currentList.push(book)
@@ -52,10 +64,6 @@ class BookShelf extends Component {
             </div>
         )
     }
-}
-
-BookShelf.propTypes = {
-    books: PropTypes.array.isRequired
 }
 
 export default BookShelf
