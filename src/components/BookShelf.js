@@ -17,13 +17,28 @@ class BookShelf extends Component {
         })
     }
 
+    onShelfChange = (book, shelf) => {
+        const id = book.id
+        const currentBooks = [...this.state.books]
+        const indexToUpdate = currentBooks.findIndex(book => book.id === id)
+        const newBookToUpdate = Object.assign({}, currentBooks[indexToUpdate], {
+            shelf: shelf
+        });
+
+        this.setState({
+            books: [...currentBooks.slice(0, indexToUpdate), newBookToUpdate, 
+            ...currentBooks.slice(indexToUpdate + 1)]
+        })
+    }
+
     render() {
+        const { books } = this.state
         
         let currentList = [];
         let wantList = [];
         let readList = [];
 
-        this.state.books.map(book => {
+        books.map(book => {
             switch(book.shelf) {
                 case 'currentlyReading':
                     currentList.push(book)
@@ -40,25 +55,27 @@ class BookShelf extends Component {
         const shelfList = [
             {
                 name: 'Currently Reading',
-                list : currentList
+                books : currentList
             },
             {
                 name: 'Want To Read',
-                list : wantList
+                books : wantList
             },
             {
                 name: 'Read',
-                list : readList
+                books : readList
             }
         ]
 
         return(
             <div className="list-books-content">
                 <div>
-                    {shelfList.map(shelf => (
-                        <Shelf 
+                    {shelfList.map((shelf, index) => (
+                        <Shelf
+                            key={index} 
                             title={shelf.name}
-                            list={shelf.list} />
+                            books={shelf.books} 
+                            onShelfChange={this.onShelfChange}/>
                     ))}
                 </div>
             </div>
