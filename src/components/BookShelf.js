@@ -18,6 +18,7 @@ class BookShelf extends Component {
     }
 
     onShelfChange = (book, shelf) => {
+        
         const id = book.id
         const currentBooks = [...this.state.books]
         const indexToUpdate = currentBooks.findIndex(book => book.id === id)
@@ -29,6 +30,8 @@ class BookShelf extends Component {
             books: [...currentBooks.slice(0, indexToUpdate), newBookToUpdate, 
             ...currentBooks.slice(indexToUpdate + 1)]
         })
+
+        BooksAPI.update(book, shelf)
     }
 
     render() {
@@ -69,15 +72,20 @@ class BookShelf extends Component {
 
         return(
             <div className="list-books-content">
-                <div>
-                    {shelfList.map((shelf, index) => (
-                        <Shelf
-                            key={index} 
-                            title={shelf.name}
-                            books={shelf.books} 
-                            onShelfChange={this.onShelfChange}/>
-                    ))}
-                </div>
+                {books.length > 0 
+                ? 
+                    (<div>
+                        {shelfList.map((shelf, index) => (
+                            <Shelf
+                                key={index} 
+                                title={shelf.name}
+                                books={shelf.books} 
+                                onShelfChange={this.onShelfChange}/>
+                        ))}
+                    </div>)
+                :
+                    (<div>Loading...</div>)
+                }
             </div>
         )
     }
