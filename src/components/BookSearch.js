@@ -7,31 +7,45 @@ import * as BooksAPI from '../BooksAPI'
 class BookSearch extends Component {
 
     state = {
-      query: '',
       books: []
     }
 
     onSearch = (event) => {
       const value = event.target.value
-      console.log(value)
-      if (value) {
-        BooksAPI.search(value).then(books => {
-          this.setState({
-            books: books
-          })
-        })
-      }
+      BooksAPI.search(value).then(books => {
+        if(!books || books.hasOwnProperty('error')) {
+          this.setState({ books: [] })
+        } else {
+            this.setState({ books: books })
+        }  
+      })
+    }
+
+    onShelfChange = (book, shelf) => {
+      BooksAPI.update(book, shelf)
     }
     
     render() {
+        const { books } = this.state
 
-        const books = this.state.books.map(book => <li><Book book={book}/></li>)
+        let booksList
+
+        if (books.length > 0) {
+          booksList = books.map((book, index) => (
+                        <li key={index}>
+                          <Book
+                            onShelfChange={this.onShelfChange}
+                            book={book} />
+                        </li>))
+        } else {
+          booksList = null
+        }
+
         return(
             <div className="search-books">
             <div className="search-books-bar">
               <Link to="/" className="close-search">Close</Link>
               <div className="search-books-input-wrapper">
-                
                 <input 
                   type="text" 
                   onChange={this.onSearch}
@@ -40,7 +54,7 @@ class BookSearch extends Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-                {books}
+               {booksList}
               </ol>
             </div>
           </div>
