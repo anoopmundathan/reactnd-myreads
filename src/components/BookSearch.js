@@ -12,13 +12,18 @@ class BookSearch extends Component {
 
     onSearch = (event) => {
       const value = event.target.value
-      BooksAPI.search(value).then(books => {
-        if(!books || books.hasOwnProperty('error')) {
-          this.setState({ books: [] })
-        } else {
-            this.setState({ books: books })
-        }  
-      })
+      
+      if(value) {
+        BooksAPI.search(value).then(books => {
+          if(!books || books.hasOwnProperty('error')) {
+            this.setState({ books: [] })
+          } else {
+              this.setState({ books: books })
+          }  
+        })
+      } else {
+        this.setState( { books: [] })
+      }
     }
 
     onShelfChange = (book, shelf) => {

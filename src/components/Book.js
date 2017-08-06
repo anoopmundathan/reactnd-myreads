@@ -3,15 +3,9 @@ import PropTypes from 'prop-types'
 
 class Book extends Component {
     
-    onChange = (event) => {
-        const book = this.props.book
-        const shelf = event.target.value
-        this.props.onShelfChange(book, shelf)
-    }
-
     render() {
-        
-        const { book } = this.props
+        const { book, onShelfChange } = this.props
+        const noThumbLink = "https://books.google.com/googlebooks/images/no_cover_thumb.gif"
 
         return(
             <div className="book">
@@ -21,11 +15,13 @@ class Book extends Component {
                         style={{ 
                             width: 128, 
                             height: 193, 
-                            backgroundImage: `url(${book.imageLinks.thumbnail})`}}>                        
+                            backgroundImage: `url(${
+                                book.imageLinks ? book.imageLinks.thumbnail : noThumbLink
+                            })`}}>                        
                     </div>
                     <div className="book-shelf-changer">
                         <select 
-                            onChange={this.onChange}
+                            onChange={e => onShelfChange(book, e.target.value)}
                             value={book.shelf}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
@@ -35,8 +31,8 @@ class Book extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="book-title">{book.title}</div>
-                <div className="book-authors">{book.authors[0]}</div>
+                <div className="book-title">{book.title ? book.title : null}</div>
+                <div className="book-authors">{book.authors ? book.authors.join(',') : null}</div>
             </div>
         )
     }
