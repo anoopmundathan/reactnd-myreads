@@ -7,7 +7,16 @@ import * as BooksAPI from '../BooksAPI'
 class BookSearch extends Component {
 
     state = {
-      books: []
+      books: [],
+      currentBooks: []
+    }
+
+    componentDidMount() {
+      BooksAPI.getAll()
+        .then(books => {
+          this.setState({ currentBooks: books })
+        })
+        
     }
 
     onSearch = (event) => {
@@ -29,19 +38,28 @@ class BookSearch extends Component {
     onShelfChange = (book, shelf) => {
       BooksAPI.update(book, shelf)
     }
-    
+ 
     render() {
-        const { books } = this.state
-
+        const { books, currentBooks } = this.state
         let booksList
 
         if (books.length > 0) {
-          booksList = books.map((book, index) => (
-                        <li key={index}>
-                          <Book
-                            onShelfChange={this.onShelfChange}
-                            book={book} />
-                        </li>))
+          booksList = books.map((book, index) => {
+            currentBooks.forEach(cbook => {
+              if(cbook.id === book.id) {
+                book.shelf = cbook.shelf
+              }
+            })
+
+            return (
+              <li key={index}>
+                <Book
+                  onShelfChange={this.onShelfChange}
+                  book={book} />
+              </li>
+            ) 
+
+          })
         } else {
           booksList = null
         }
