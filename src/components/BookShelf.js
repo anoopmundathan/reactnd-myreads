@@ -84,7 +84,7 @@ class BookShelf extends Component {
                         ))}
                     </div>)
                 :
-                    (<div>Loading...</div>)
+                    (<div className="loading">Loading...</div>)
                 }
             </div>
         )

@@ -14,9 +14,10 @@ class BookSearch extends Component {
     componentDidMount() {
       BooksAPI.getAll()
         .then(books => {
-          this.setState({ currentBooks: books })
+          // Get rid of all other properties except book id
+          const booksId = books.map(book => ({ id: book.id,shelf: book.shelf }))
+          this.setState({ currentBooks: booksId })
         })
-        
     }
 
     onSearch = (event) => {
@@ -36,7 +37,21 @@ class BookSearch extends Component {
     }
 
     onShelfChange = (book, shelf) => {
+      const newBooks = []
       BooksAPI.update(book, shelf)
+        .then(books => {
+          Object.keys(books)
+            .forEach(shelf => {
+              return books[shelf].map(id => ({ id: id, shelf: shelf}))
+              .forEach(book => {
+                newBooks.push(book)
+              })
+            })
+            return newBooks
+        })
+        .then(newBooks => {
+          this.setState({ currentBooks: newBooks })
+        })
     }
  
     render() {
@@ -58,7 +73,6 @@ class BookSearch extends Component {
                   book={book} />
               </li>
             ) 
-
           })
         } else {
           booksList = null

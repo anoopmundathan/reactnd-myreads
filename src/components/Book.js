@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
 class Book extends Component {
-    
+
     render() {
         const { book, onShelfChange } = this.props
         const noThumbLink = "https://books.google.com/googlebooks/images/no_cover_thumb.gif"
@@ -22,7 +22,7 @@ class Book extends Component {
                     <div className="book-shelf-changer">
                         <select 
                             onChange={e => onShelfChange(book, e.target.value)}
-                            value={book.shelf}>
+                            value={book.shelf ? book.shelf : ''}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
