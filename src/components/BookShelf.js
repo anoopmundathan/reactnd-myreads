@@ -41,7 +41,7 @@ class BookShelf extends Component {
         let wantList = [];
         let readList = [];
 
-        books.map(book => {
+        books.forEach(book => {
             switch(book.shelf) {
                 case 'currentlyReading':
                     currentList.push(book)
@@ -52,9 +52,11 @@ class BookShelf extends Component {
                 case 'read':
                     readList.push(book)
                     break
+                default:
+                    break
             }
         })
-
+        
         const shelfList = [
             {
                 name: 'Currently Reading',
