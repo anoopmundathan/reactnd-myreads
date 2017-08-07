@@ -15,8 +15,7 @@ class Shelf extends Component {
                             <Book
                                 key={index} 
                                 book={book} 
-                                onShelfChange={onShelfChange}
-                                />
+                                onShelfChange={onShelfChange} />
                         ))}
                     </ol>
                 </div>
